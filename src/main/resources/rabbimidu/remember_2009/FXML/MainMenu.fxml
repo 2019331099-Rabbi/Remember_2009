@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rabbimidu.remember_2009.MainMenuController">
+   <children>
+      <Button fx:id="level" layoutX="384.0" layoutY="235.0" mnemonicParsing="false" onAction="#loadPage" text="Move to level page" />
+   </children>
+</AnchorPane>
