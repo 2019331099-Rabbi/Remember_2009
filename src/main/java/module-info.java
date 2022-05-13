@@ -1,6 +1,7 @@
 module rabbimidu.remember_2009 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires jbox2d.library;
 
 
     opens rabbimidu.remember_2009 to javafx.fxml;
