@@ -6,32 +6,44 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+/**
+ *
+ * @author dilip
+ */
 public class Utils {
-    public static final World world = new World(new Vec2(0.f, -10.0f));
-    public static final int WIDTH = 900;
-    public static final int HEIGHT = 500;
-    public static final int BALL_RADIUS = 8;
+    //Create a JBox2D world.
+    public static final World world = new World(new Vec2(0.0f, -100.0f));
 
+    //Screen width and height
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
 
-    public static void addGround(float width, float height) {
+    //Ball radius in pixel
+    public static final int BALL_SIZE = 8;
+
+    //This method adds a ground to the screen.
+    public static void addGround(float width, float height){
         PolygonShape ps = new PolygonShape();
-        ps.setAsBox(width, height);
-
-        BodyDef bd = new BodyDef();
-        bd.position = new Vec2(0.0f, -10.0f);
+        ps.setAsBox(width,height);
 
         FixtureDef fd = new FixtureDef();
         fd.shape = ps;
+        fd.density = 1.0f;
+        fd.friction = 0.3f;
+
+        BodyDef bd = new BodyDef();
+        bd.position= new Vec2(0.0f,-10f);
 
         world.createBody(bd).createFixture(fd);
     }
 
-    public static void addWall(float posX, float posY, float width, float height) {
+    //This method adds a ground to the screen.
+    public static void addRoof(float width, float height) {
         PolygonShape ps = new PolygonShape();
         ps.setAsBox(width, height);
 
         BodyDef bd = new BodyDef();
-        bd.position = new Vec2(posX, posY);
+        bd.position = new Vec2(0.0f, 109.0f);
 
         FixtureDef fd = new FixtureDef();
         fd.shape = ps;
@@ -41,9 +53,25 @@ public class Utils {
         world.createBody(bd).createFixture(fd);
     }
 
+    //This method creates a walls.
+    public static void addWall(float posX, float posY, float width, float height){
+        PolygonShape ps = new PolygonShape();
+        ps.setAsBox(width,height);
+
+        FixtureDef fd = new FixtureDef();
+        fd.shape = ps;
+        fd.density = 1.0f;
+        fd.friction = 0.3f;
+
+        BodyDef bd = new BodyDef();
+        bd.position.set(posX, posY);
+
+        Utils.world.createBody(bd).createFixture(fd);
+    }
+
     //Convert a JBox2D x coordinate to a JavaFX pixel x coordinate
     public static float toPixelPosX(float posX) {
-        float x = WIDTH * posX / 100.0f;
+        float x = WIDTH*posX / 100.0f;
         return x;
     }
 
@@ -61,7 +89,7 @@ public class Utils {
 
     //Convert a JavaFX pixel y coordinate to a JBox2D y coordinate
     public static float toPosY(float posY) {
-        float y = 100.0f - ((posY * 100*1.0f) / HEIGHT) ;
+        float y = 100.0f - ((posY * 100*1.0f) /HEIGHT) ;
         return y;
     }
 
@@ -72,6 +100,17 @@ public class Utils {
 
     //Convert a JBox2D height to pixel height
     public static float toPixelHeight(float height) {
-        return HEIGHT * height/100.0f;
+        return HEIGHT*height/100.0f;
     }
+
+    //Convert a pixel width to Box2D width
+    public static float toWidth(float width) {
+        return 100.0f * width / WIDTH;
+    }
+
+    //Convert a pixel height to Box2D height
+    public static float toHeight(float height) {
+        return 100.0f * height / WIDTH;
+    }
+
 }
