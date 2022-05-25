@@ -8,8 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,7 +31,7 @@ public class Level1Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         drawBall();
-        drawBox();
+        //drawBox();
         addSides();
 
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -48,9 +50,6 @@ public class Level1Controller implements Initializable {
                 float ypos = Utils.toPixelPosY(body.getPosition().y);
                 ball[0].node.setLayoutX(xpos);
                 ball[0].node.setLayoutY(ypos);
-
-//                System.out.println(body.getLinearVelocity().x);
-//                if (Math.abs(body.getLinearVelocity().x) <= 2.5) body.setLinearVelocity(new Vec2(0.f, 0.f));
             }
         };
 
@@ -60,8 +59,9 @@ public class Level1Controller implements Initializable {
 
     private void drawBall() {
         ball[0] = new Ball(Utils.toPosX(WIDTH / 2), Utils.toPosY(HEIGHT / 2));
-        //ball[1] = new Ball(Utils.toPosX(WIDTH / 2 + 2), Utils.toPosY(HEIGHT / 2 + 200.f), 16, BodyType.STATIC, Color.BLACK);
-        root.getChildren().addAll(ball[0].node);
+        ball[1] = new Ball(Utils.toPosX(WIDTH / 2 + 2), Utils.toPosY(HEIGHT / 2 + 200.f), 16, BodyType.STATIC, Color.BLACK);
+        root.getChildren().add(ball[0].node);
+        root.getChildren().add(ball[1].node);
     }
 
     private void drawBox() {
