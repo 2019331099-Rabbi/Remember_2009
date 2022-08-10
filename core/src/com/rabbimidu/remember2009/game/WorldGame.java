@@ -1,5 +1,7 @@
 package com.rabbimidu.remember2009.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -22,8 +24,8 @@ public class WorldGame {
 	public Vector2 gravity;
 	float unitScale = 1 / 100f;
 
-	final float TIME_OUT_OF_GAS = 1.5f;
-	float timeOutOfGas;
+	final float TIME_OUT = 1.5f;
+	float timeOut;
 
 	final float TIME_FOR_NEXT_LEVEL = .75f;
 	float timeForNextLevel;
@@ -39,6 +41,7 @@ public class WorldGame {
 	public int state;
 
 	public int numberOfTarget;
+	Music getStar, exposion;
 
 	public WorldGame() {
 		gravity = new Vector2(0, -4.9f);
@@ -53,6 +56,8 @@ public class WorldGame {
 
 		new TiledMapManagerBox2d(this, unitScale).createMap(Assets.map);
 		oRan = new Random();
+		getStar = Gdx.audio.newMusic(Gdx.files.internal("data/Sound/pickStar.mp3"));
+		exposion = Gdx.audio.newMusic(Gdx.files.internal("data/Sound/explosion.mp3"));
 	}
 
 	public void update(float delta, float accelY, float accelX) {
@@ -72,7 +77,7 @@ public class WorldGame {
 				}
 			} else if (body.getUserData() instanceof Star) {
 				Star obj = (Star) body.getUserData();
-				if (obj.state == Star.STATE_TOMADA && !oWorldBox.isLocked()) {
+				if (obj.state == Star.STATE_FINISHED && !oWorldBox.isLocked()) {
 					oWorldBox.destroyBody(body);
 					targets.removeValue(obj, true);
 				}
@@ -80,15 +85,23 @@ public class WorldGame {
 		}
 
 		if (rocket.time <= 0 && state == STATE_RUNNING) {
-			timeOutOfGas += delta;
-			if (timeOutOfGas >= TIME_OUT_OF_GAS)
+			timeOut += delta;
+			if (timeOut >= TIME_OUT) {
 				state = STATE_GAME_OVER;
+			}
+
 		}
 
 		if (rocket.isLanded) {
 			timeForNextLevel += delta;
-			if (timeForNextLevel >= TIME_FOR_NEXT_LEVEL)
+			if (timeForNextLevel >= TIME_FOR_NEXT_LEVEL) {
 				state = STATE_NEXT_LEVEL;
+				getStar.dispose();
+				if (rocket.state == Rocket.STATE_EXPLODE) {
+					exposion.play();
+					exposion.setVolume(0.5f);
+				}
+			}
 		}
 		else {
 			timeForNextLevel = 0;
@@ -96,12 +109,14 @@ public class WorldGame {
 	}
 
 	private void updateRocket(Body body, float delta, float accelY, float accelX) {
-		Rocket obj = (Rocket) body.getUserData();
-		if (obj.state == Rocket.STATE_EXPLODE && obj.stateTime > Rocket.EXPLODE_TIME && !oWorldBox.isLocked()) {
+		Rocket rocket = (Rocket) body.getUserData();
+		if (rocket.state == Rocket.STATE_EXPLODE && rocket.stateTime > Rocket.EXPLODE_TIME && !oWorldBox.isLocked()) {
+			exposion.play();
+			exposion.setVolume(1.0f);
 			oWorldBox.destroyBody(body);
 			state = STATE_GAME_OVER;
 			return;
 		}
-		obj.update(delta, body, accelX, accelY);
+		rocket.update(delta, body, accelX, accelY);
 	}
 }

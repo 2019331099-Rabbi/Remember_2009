@@ -59,7 +59,7 @@ public class Rocket {
 		velocidadMove = VELOCIDAD_MOVE;
 		isFlying = false;
 
-		// Upgrades
+
 		velocidadFly += (.09 * Settings.nivelVelocidadY);
 		velocidadMove += (.02 * Settings.nivelRotacion);
 		vida += (5.3f * Settings.nivelVida);
@@ -76,11 +76,7 @@ public class Rocket {
 			}
 			else
 				isFlying = true;
-
-			// Le meto la velocidad
 			body.applyForceToCenter(velocidadMove * accelX, velocidadFly * accelY, true);
-
-			// Le meto la velocidad en x al contrario para que reduzca su velocidad
 			body.applyForceToCenter(body.getLinearVelocity().x * -.015f, 0, true);
 
 			velocity = body.getLinearVelocity();
@@ -141,17 +137,5 @@ public class Rocket {
 				stateTime = 0;
 			}
 		}
-	}
-
-	public void getHurtByLaser(float daño) {
-		isHurtByBomb = true;
-		stateTime = 0;
-		colision(daño);
-	}
-
-	public void getHurtByBomb(float daño) {
-		isHurtByBomb = true;
-		stateTime = 0;
-		colision(daño);
 	}
 }

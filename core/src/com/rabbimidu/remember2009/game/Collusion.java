@@ -44,7 +44,9 @@ public class Collusion implements ContactListener {
 
 			if (star.state == Star.STATE_NORMAL) {
 				oWorld.numberOfTarget++;
-				star.state = Star.STATE_TOMADA;
+				star.state = Star.STATE_FINISHED;
+				oWorld.getStar.play();
+				oWorld.getStar.setVolume(1.0f);
 			}
 			return;
 		}

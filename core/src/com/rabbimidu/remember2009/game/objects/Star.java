@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class Star {
 
 	public static int STATE_NORMAL = 0;
-	public static int STATE_TOMADA = 1;
+	public static int STATE_FINISHED = 1;
 
 	public Vector2 position;
 	public Vector2 size;

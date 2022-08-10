@@ -28,11 +28,11 @@ public class GameScreen extends Screens {
 	WorldGame oWorld;
 	WorldGameRenderer renderer;
 
-	float sensibilidad = 3;
+	float sensitivity = 3;
 
 	LifeBar lifeBar;
 	LifeBar timeBar;
-	Table marcoStats;
+	Table lifeTime;
 
 	ImageButton btPause;
 	GameOver dialogGameover;
@@ -42,7 +42,7 @@ public class GameScreen extends Screens {
 	public GameScreen(MainLander game, int level) {
 		super(game);
 		this.level = level;
-		Assets.cargarMapa(level);
+		Assets.creteMap(level);
 		oWorld = new WorldGame();
 		renderer = new WorldGameRenderer(batcher, oWorld);
 
@@ -50,20 +50,18 @@ public class GameScreen extends Screens {
 		dialogPaused = new GamePaused(game, oWorld, level);
 		dialogNextLevel = new GameCompleted(game, oWorld, level);
 
-		// Marcador Stats
-		marcoStats = new Table();
-		marcoStats.setSize(172, 98);
-		marcoStats.setBackground(Assets.marcoStats);
-		marcoStats.setPosition(0, SCREEN_HEIGHT - 99);
+		lifeTime = new Table();
+		lifeTime.setSize(172, 98);
+		lifeTime.setBackground(Assets.marcoStats);
+		lifeTime.setPosition(0, SCREEN_HEIGHT - 99);
 
 		lifeBar = new LifeBar(oWorld.rocket.vida);
 		timeBar = new LifeBar(oWorld.rocket.time);
 
-		marcoStats.add(lifeBar).width(90).height(25).padLeft(35).padBottom(5);
-		marcoStats.row();
-		marcoStats.add(timeBar).width(90).height(25).padLeft(35).padTop(6);
+		lifeTime.add(lifeBar).width(90).height(25).padLeft(35).padBottom(5);
+		lifeTime.row();
+		lifeTime.add(timeBar).width(90).height(25).padLeft(35).padTop(6);
 
-		// Boton Pause
 		btPause = new ImageButton(Assets.styleImageButtonPause);
 		btPause.setSize(32, 32);
 		btPause.setPosition(SCREEN_WIDTH - btPause.getWidth() - 5, SCREEN_HEIGHT - btPause.getHeight() - 5);
@@ -74,7 +72,7 @@ public class GameScreen extends Screens {
 			}
 		});
 
-		stage.addActor(marcoStats);
+		stage.addActor(lifeTime);
 		stage.addActor(btPause);
 
 		state = STATE_RUNNING;
@@ -100,7 +98,7 @@ public class GameScreen extends Screens {
 		float accelX = 0, accelY = 0;
 
 		if (Gdx.input.isPeripheralAvailable(Peripheral.Accelerometer)) {
-			accelX = Gdx.input.getAccelerometerX() / sensibilidad * -1;
+			accelX = Gdx.input.getAccelerometerX() / sensitivity * -1;
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.A) || Gdx.input.isKeyPressed(Keys.LEFT))
@@ -117,7 +115,7 @@ public class GameScreen extends Screens {
 		timeBar.updateActualLife(oWorld.rocket.time);
 
 		if (oWorld.state == WorldGame.STATE_GAME_OVER) {
-			setGameover();
+			setGameOver();
 		}
 		else if (oWorld.state == WorldGame.STATE_NEXT_LEVEL) {
 			setNextLevel();
@@ -132,14 +130,6 @@ public class GameScreen extends Screens {
 		batcher.setProjectionMatrix(oCam.combined);
 
 		batcher.begin();
-
-		// Assets.font.draw(batcher, "Velocidad " + oWorld.oNave.velocidadResultante, 10, 60);
-		// Assets.font.draw(batcher, "Velocidad X " + oWorld.oNave.velocity.x, 10, 40);
-		// Assets.font.draw(batcher, "Velocidad Y " + oWorld.oNave.velocity.y, 10, 20);
-
-		// Assets.font.draw(batcher, "Estrellas  " + oWorld.estrellasTomadas, 300, 60);
-		// Assets.font.draw(batcher, "Vida  " + oWorld.oNave.vida, 300, 40);
-		// Assets.font.draw(batcher, "Gas  " + oWorld.oNave.gas, 300, 20);
 		batcher.end();
 
 	}
@@ -149,7 +139,7 @@ public class GameScreen extends Screens {
 		dialogPaused.show(stage);
 	}
 
-	private void setGameover() {
+	private void setGameOver() {
 		state = STATE_GAME_OVER;
 		dialogGameover.show(stage);
 
@@ -169,5 +159,4 @@ public class GameScreen extends Screens {
 		}
 		return false;
 	}
-
 }

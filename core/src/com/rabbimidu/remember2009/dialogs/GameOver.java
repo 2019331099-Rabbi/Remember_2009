@@ -34,7 +34,7 @@ public class GameOver extends Window {
 	WorldGame oWorld;
 
 	Label lblLevelActual;
-	Image[] estrellas;
+	Image[] stars;
 
 	ImageButton btMenu, btTryAgain;
 	final int levelActual;
@@ -49,14 +49,14 @@ public class GameOver extends Window {
 		Label paused = new Label("Gameover", Assets.styleLabelMediana);
 		lblLevelActual = new Label("Level " + (levelActual + 1), Assets.styleLabelMediana);
 
-		estrellas = new Image[3];
+		stars = new Image[3];
 		Table starTable = new Table();
 		starTable.defaults().pad(15);
 		if (oWorld.numberOfTarget >= 0) {
 			for (int star = 0; star < 3; star++) {
 				// Todas son grises la primera vez
-				estrellas[star] = new Image(Assets.starOff);
-				starTable.add(estrellas[star]).width(50).height(50);
+				stars[star] = new Image(Assets.starOff);
+				starTable.add(stars[star]).width(50).height(50);
 			}
 		}
 
@@ -97,12 +97,8 @@ public class GameOver extends Window {
 	}
 
 	public void show(Stage stage) {
-
-		/*
-		 * Se reemplazan las estrellas grises por las tomadas =)
-		 */
 		for (int i = 0; i < oWorld.numberOfTarget; i++) {
-			estrellas[i].setDrawable(new TextureRegionDrawable(Assets.star));
+			stars[i].setDrawable(new TextureRegionDrawable(Assets.star));
 		}
 
 		this.pack();

@@ -21,7 +21,7 @@ public class Assets {
 
 	public static TextureRegionDrawable title;
 
-	public static AtlasRegion nave;
+	public static AtlasRegion rocket;
 	public static Animation<TextureRegion> naveFly;
 	public static Animation<TextureRegion> explosion;
 
@@ -100,7 +100,7 @@ public class Assets {
 
 		title = new TextureRegionDrawable(atlas.findRegion("titulo"));
 
-		nave = atlas.findRegion("nave");
+		rocket = atlas.findRegion("nave");
 
 		AtlasRegion an1 = atlas.findRegion("nave1");
 		AtlasRegion an2 = atlas.findRegion("nave2");
@@ -176,7 +176,7 @@ public class Assets {
 
 	}
 
-	public static void cargarMapa(int numeroMundo) {
+	public static void creteMap(int numeroMundo) {
 		if (map != null) {
 			map.dispose();
 			map = null;

@@ -74,9 +74,9 @@ public class WorldGameRenderer {
 
 		batcher.enableBlending();
 		batcher.begin();
-		renderNave();
-		renderGas();
-		renderEstrella();
+		renderRocket();
+		renderTime();
+		renderStars();
 
 		batcher.end();
 
@@ -90,7 +90,7 @@ public class WorldGameRenderer {
 		tiledRenderer.render();
 	}
 
-	public void renderNave() {
+	public void renderRocket() {
 		Rocket obj = oWorld.rocket;
 
 		TextureRegion keyframe;
@@ -99,7 +99,7 @@ public class WorldGameRenderer {
 			if (obj.isFlying)
 				keyframe = Assets.naveFly.getKeyFrame(obj.stateTime, true);
 			else
-				keyframe = Assets.nave;
+				keyframe = Assets.rocket;
 			batcher.draw(keyframe, obj.position.x - Rocket.DRAW_WIDTH / 2f, obj.position.y - 1.025f, Rocket.DRAW_WIDTH / 2f, 1.025f, Rocket.DRAW_WIDTH, Rocket.DRAW_HEIGHT, 1, 1, (float) Math.toDegrees(obj.angleRad));
 
 		}
@@ -107,10 +107,9 @@ public class WorldGameRenderer {
 			keyframe = Assets.explosion.getKeyFrame(obj.stateTime, false);
 			batcher.draw(keyframe, obj.position.x - .5f, obj.position.y - .5f, .5f, .5f, 1f, 1f, 1, 1, (float) Math.toDegrees(obj.angleRad));
 		}
-
 	}
 
-	public void renderGas() {
+	public void renderTime() {
 		Iterator<Time> i = oWorld.times.iterator();
 		while (i.hasNext()) {
 			Time obj = i.next();
@@ -119,16 +118,11 @@ public class WorldGameRenderer {
 		}
 	}
 
-	public void renderEstrella() {
+	public void renderStars() {
 		Iterator<Star> i = oWorld.targets.iterator();
 		while (i.hasNext()) {
 			Star obj = i.next();
 			batcher.draw(Assets.star, obj.position.x - .25f, obj.position.y - .25f, .5f, .5f);
-
 		}
 	}
-
-
-
-
 }
