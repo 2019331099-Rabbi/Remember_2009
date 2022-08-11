@@ -12,28 +12,27 @@ public class Rocket {
 	final public static float WIDTH = .5f;
 	final public static float HEIGHT = 1.0f;
 
-	final public static float DENSIDAD_INICIAL = .7f;
+	final public static float Density = .7f;
 	final private int MAX_ANGLE_DEGREES = 20;
 
-	final public static float VELOCIDAD_FLY = 2f;
+	final public static float flyVelocity = 2f;
 	final public static float MAX_SPEED_Y = 2;
 	final public static float MIN_SPEED_Y = -4;
-	public float velocidadFly;
+	public float curVelocity;
 
-	final public static float VELOCIDAD_MOVE = 1.3f;
-	public float velocidadMove;
+	final public static float Velocity_Move = 1.3f;
+	public float velocityMove;
 	final public static float MAX_SPEED_X = 1f;
 
-	final public static float GAS_INICIAL = 100;
+	final public static float initialTime = 100;
 	public float time;
 
-	final public static float VIDA_INICIAL = 20;
-	public float vida;
+	final public static float initialLife = 20;
+	public float life;
 
 	public static int STATE_NORMAL = 0;
 	public static int STATE_EXPLODE = 1;
 	public static float EXPLODE_TIME = .05f * 20;
-	public static float TIME_HURT_BY_BOMB = .05f;// Debe ser un numero pequeno
 
 	public Vector2 position;
 	public Vector2 velocity;
@@ -43,27 +42,22 @@ public class Rocket {
 	public float stateTime;
 
 	public boolean isFlying;
-	public boolean isHurtByBomb;
-
-	/**
-	 * Cuando aterrizo en el area de ganar el juego
-	 */
 	public boolean isLanded;
 
 	public Rocket(float x, float y) {
 		position = new Vector2(x, y);
 		state = STATE_NORMAL;
-		time = GAS_INICIAL;
-		vida = VIDA_INICIAL;
-		velocidadFly = VELOCIDAD_FLY;
-		velocidadMove = VELOCIDAD_MOVE;
+		time = initialTime;
+		life = initialLife;
+		curVelocity = flyVelocity;
+		velocityMove = Velocity_Move;
 		isFlying = false;
 
 
-		velocidadFly += (.09 * Settings.nivelVelocidadY);
-		velocidadMove += (.02 * Settings.nivelRotacion);
-		vida += (5.3f * Settings.nivelVida);
-		time += (33.3f * Settings.nivelGas);
+		curVelocity += (.09 * Settings.rocketVelocityY);
+		velocityMove += (.02 * Settings.nivelRotacion);
+		life += (5.3f * Settings.rocketLife);
+		time += (33.3f * Settings.rocketTime);
 	}
 
 	public void update(float delta, Body body, float accelX, float accelY) {
@@ -76,32 +70,27 @@ public class Rocket {
 			}
 			else
 				isFlying = true;
-			body.applyForceToCenter(velocidadMove * accelX, velocidadFly * accelY, true);
+			body.applyForceToCenter(velocityMove * accelX, curVelocity * accelY, true);
 			body.applyForceToCenter(body.getLinearVelocity().x * -.015f, 0, true);
 
 			velocity = body.getLinearVelocity();
 
-			if (isHurtByBomb && stateTime > TIME_HURT_BY_BOMB)
-				isHurtByBomb = false;
+			if (velocity.y > Rocket.MAX_SPEED_Y) {
+				velocity.y = Rocket.MAX_SPEED_Y;
+				body.setLinearVelocity(velocity);
 
-			if (!isHurtByBomb) {
-				if (velocity.y > Rocket.MAX_SPEED_Y) {
-					velocity.y = Rocket.MAX_SPEED_Y;
-					body.setLinearVelocity(velocity);
-
-				}
-				else if (velocity.y < MIN_SPEED_Y) {
-					velocity.y = MIN_SPEED_Y;
-					body.setLinearVelocity(velocity);
-				}
-				if (velocity.x > Rocket.MAX_SPEED_X) {
-					velocity.x = Rocket.MAX_SPEED_X;
-					body.setLinearVelocity(velocity);
-				}
-				else if (velocity.x < -Rocket.MAX_SPEED_X) {
-					velocity.x = -Rocket.MAX_SPEED_X;
-					body.setLinearVelocity(velocity);
-				}
+			}
+			else if (velocity.y < MIN_SPEED_Y) {
+				velocity.y = MIN_SPEED_Y;
+				body.setLinearVelocity(velocity);
+			}
+			if (velocity.x > Rocket.MAX_SPEED_X) {
+				velocity.x = Rocket.MAX_SPEED_X;
+				body.setLinearVelocity(velocity);
+			}
+			else if (velocity.x < -Rocket.MAX_SPEED_X) {
+				velocity.x = -Rocket.MAX_SPEED_X;
+				body.setLinearVelocity(velocity);
 			}
 
 			angleRad = MathUtils.atan2(-accelX, accelY);
@@ -128,11 +117,10 @@ public class Rocket {
 		stateTime += delta;
 	}
 
-	public void colision(float fuerzaImpacto) {
+	public void collide(float damage) {
 		if (state == STATE_NORMAL) {
-			vida -= fuerzaImpacto;
-			if (vida <= 0) {
-
+			life -= damage;
+			if (life <= 0) {
 				state = STATE_EXPLODE;
 				stateTime = 0;
 			}

@@ -20,12 +20,4 @@ public class Star {
 		stateTime = 0;
 		state = STATE_NORMAL;
 	}
-
-	public void update(float delta, Body body) {
-		position.x = body.getPosition().x;
-		position.y = body.getPosition().y;
-		stateTime += delta;
-
-	}
-
 }

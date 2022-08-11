@@ -155,7 +155,7 @@ public class TiledMapManagerBox2d {
 
 		FixtureDef fixture = new FixtureDef();
 		fixture.shape = shape;
-		fixture.density = Rocket.DENSIDAD_INICIAL;
+		fixture.density = Rocket.Density;
 		fixture.restitution = 0;
 		fixture.friction = .5f;
 		oBody.createFixture(fixture);

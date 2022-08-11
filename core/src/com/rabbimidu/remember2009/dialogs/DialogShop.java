@@ -154,7 +154,7 @@ public class DialogShop extends Window {
 		btUpVelocidadY.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Settings.nivelVelocidadY++;
+				Settings.rocketVelocityY++;
 				setArrays();
 
 			}
@@ -164,7 +164,7 @@ public class DialogShop extends Window {
 		btUpVida.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Settings.nivelVida++;
+				Settings.rocketLife++;
 				setArrays();
 
 			}
@@ -174,7 +174,7 @@ public class DialogShop extends Window {
 		btUpGas.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Settings.nivelGas++;
+				Settings.rocketTime++;
 				setArrays();
 
 			}
@@ -232,26 +232,26 @@ public class DialogShop extends Window {
 		}
 
 		// VelocidadY
-		for (int i = 0; i < Settings.nivelVelocidadY; i++) {
+		for (int i = 0; i < Settings.rocketVelocityY; i++) {
 			arrVelocidadY[i].setDrawable(new TextureRegionDrawable(Assets.upgradeOn));
 		}
-		if (Settings.nivelVelocidadY >= MAX_INT) {
+		if (Settings.rocketVelocityY >= MAX_INT) {
 			btUpVelocidadY.setVisible(false);
 		}
 
 		// Vida
-		for (int i = 0; i < Settings.nivelVida; i++) {
+		for (int i = 0; i < Settings.rocketLife; i++) {
 			arrVida[i].setDrawable(new TextureRegionDrawable(Assets.upgradeOn));
 		}
-		if (Settings.nivelVida >= MAX_INT) {
+		if (Settings.rocketLife >= MAX_INT) {
 			btUpVida.setVisible(false);
 		}
 
 		// Gas
-		for (int i = 0; i < Settings.nivelGas; i++) {
+		for (int i = 0; i < Settings.rocketTime; i++) {
 			arrGas[i].setDrawable(new TextureRegionDrawable(Assets.upgradeOn));
 		}
-		if (Settings.nivelGas >= MAX_INT) {
+		if (Settings.rocketTime >= MAX_INT) {
 			btUpGas.setVisible(false);
 		}
 

@@ -49,11 +49,11 @@ public class LevelScreen extends Screens {
 
         final TextButton button = new TextButton("" + (level + 1), Assets.styleTextButtonLevels);
 
-        int stars = Settings.arrEstrellasMundo[level];
+        int stars = Settings.levelsStar[level];
 
         if (Settings.arrIsWorldLocked[level]) {
             button.row();
-            button.add(new Image(Assets.candado));
+            button.add(new Image(Assets.lock));
             button.setDisabled(true);
         }
 

@@ -9,8 +9,6 @@ public class Platform {
 	public static int STATE_NORMAL = 0;
 	public static int STATE_DESTROY = 1;
 
-	public static float VELOCIDAD_X = -2f;
-
 	public Vector2 position;
 	public Vector2 size;
 	public float stateTime;
@@ -24,12 +22,4 @@ public class Platform {
 		state = STATE_NORMAL;
 		isFinal = false;
 	}
-
-	public void update(float delta, Body body) {
-		position.x = body.getPosition().x;
-		position.y = body.getPosition().y;
-		stateTime += delta;
-
-	}
-
 }

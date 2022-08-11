@@ -41,7 +41,7 @@ public class WorldGame {
 	public int state;
 
 	public int numberOfTarget;
-	Music getStar, exposion;
+	Music getStar, explosion;
 
 	public WorldGame() {
 		gravity = new Vector2(0, -4.9f);
@@ -57,7 +57,7 @@ public class WorldGame {
 		new TiledMapManagerBox2d(this, unitScale).createMap(Assets.map);
 		oRan = new Random();
 		getStar = Gdx.audio.newMusic(Gdx.files.internal("data/Sound/pickStar.mp3"));
-		exposion = Gdx.audio.newMusic(Gdx.files.internal("data/Sound/explosion.mp3"));
+		explosion = Gdx.audio.newMusic(Gdx.files.internal("data/Sound/explosion.mp3"));
 	}
 
 	public void update(float delta, float accelY, float accelX) {
@@ -89,7 +89,6 @@ public class WorldGame {
 			if (timeOut >= TIME_OUT) {
 				state = STATE_GAME_OVER;
 			}
-
 		}
 
 		if (rocket.isLanded) {
@@ -98,8 +97,8 @@ public class WorldGame {
 				state = STATE_NEXT_LEVEL;
 				getStar.dispose();
 				if (rocket.state == Rocket.STATE_EXPLODE) {
-					exposion.play();
-					exposion.setVolume(0.5f);
+					explosion.play();
+					explosion.setVolume(0.5f);
 				}
 			}
 		}
@@ -111,8 +110,8 @@ public class WorldGame {
 	private void updateRocket(Body body, float delta, float accelY, float accelX) {
 		Rocket rocket = (Rocket) body.getUserData();
 		if (rocket.state == Rocket.STATE_EXPLODE && rocket.stateTime > Rocket.EXPLODE_TIME && !oWorldBox.isLocked()) {
-			exposion.play();
-			exposion.setVolume(1.0f);
+			explosion.play();
+			explosion.setVolume(1.0f);
 			oWorldBox.destroyBody(body);
 			state = STATE_GAME_OVER;
 			return;

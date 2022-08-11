@@ -53,7 +53,7 @@ public class Collusion implements ContactListener {
 
 		float impactVelocity = Math.abs(rocketBody.getLinearVelocity().x) + Math.abs(rocketBody.getLinearVelocity().y);
 		if (impactVelocity > 1.5f) {
-			rocketBodyUserData.colision(impactVelocity * 2.5f);
+			rocketBodyUserData.collide(impactVelocity * 2.5f);
 		}
 
 		if (objBodyUserData instanceof Platform)

@@ -32,35 +32,35 @@ public class GameScreen extends Screens {
 
 	LifeBar lifeBar;
 	LifeBar timeBar;
-	Table lifeTime;
+	Table lifeTimeTable;
 
 	ImageButton btPause;
-	GameOver dialogGameover;
+	GameOver dialogGameOver;
 	GamePaused dialogPaused;
 	GameCompleted dialogNextLevel;
 
 	public GameScreen(MainLander game, int level) {
 		super(game);
 		this.level = level;
-		Assets.creteMap(level);
+		Assets.createMap(level);
 		oWorld = new WorldGame();
 		renderer = new WorldGameRenderer(batcher, oWorld);
 
-		dialogGameover = new GameOver(game, oWorld, level);
+		dialogGameOver = new GameOver(game, oWorld, level);
 		dialogPaused = new GamePaused(game, oWorld, level);
 		dialogNextLevel = new GameCompleted(game, oWorld, level);
 
-		lifeTime = new Table();
-		lifeTime.setSize(172, 98);
-		lifeTime.setBackground(Assets.marcoStats);
-		lifeTime.setPosition(0, SCREEN_HEIGHT - 99);
+		lifeTimeTable = new Table();
+		lifeTimeTable.setSize(172, 98);
+		lifeTimeTable.setBackground(Assets.marcoStats);
+		lifeTimeTable.setPosition(0, SCREEN_HEIGHT - 99);
 
-		lifeBar = new LifeBar(oWorld.rocket.vida);
+		lifeBar = new LifeBar(oWorld.rocket.life);
 		timeBar = new LifeBar(oWorld.rocket.time);
 
-		lifeTime.add(lifeBar).width(90).height(25).padLeft(35).padBottom(5);
-		lifeTime.row();
-		lifeTime.add(timeBar).width(90).height(25).padLeft(35).padTop(6);
+		lifeTimeTable.add(lifeBar).width(90).height(25).padLeft(35).padBottom(5);
+		lifeTimeTable.row();
+		lifeTimeTable.add(timeBar).width(90).height(25).padLeft(35).padTop(6);
 
 		btPause = new ImageButton(Assets.styleImageButtonPause);
 		btPause.setSize(32, 32);
@@ -72,7 +72,7 @@ public class GameScreen extends Screens {
 			}
 		});
 
-		stage.addActor(lifeTime);
+		stage.addActor(lifeTimeTable);
 		stage.addActor(btPause);
 
 		state = STATE_RUNNING;
@@ -111,7 +111,7 @@ public class GameScreen extends Screens {
 
 		oWorld.update(delta, accelY, accelX);
 
-		lifeBar.updateActualLife(oWorld.rocket.vida);
+		lifeBar.updateActualLife(oWorld.rocket.life);
 		timeBar.updateActualLife(oWorld.rocket.time);
 
 		if (oWorld.state == WorldGame.STATE_GAME_OVER) {
@@ -141,7 +141,7 @@ public class GameScreen extends Screens {
 
 	private void setGameOver() {
 		state = STATE_GAME_OVER;
-		dialogGameover.show(stage);
+		dialogGameOver.show(stage);
 
 	}
 
